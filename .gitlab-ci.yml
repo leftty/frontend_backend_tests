@@ -14,4 +14,4 @@ cache:
 test:
   stage: test
   script:
-    - mvn clean install -B
+    - mvn clean install -B '-Dcucumber.options=--tags @frontend'
