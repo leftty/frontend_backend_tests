@@ -1,7 +1,8 @@
 image: markhobson/maven-chrome:jdk-11
 
 stages:
-  - test
+  - test_frontend
+  - test_backend
 
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
@@ -11,7 +12,20 @@ cache:
     - .m2/repository/
     - target/
 
-test:
-  stage: test
+test_frontend:
+  stage: test_frontend
   script:
     - mvn clean install -B '-Dcucumber.options=--tags @frontend'
+  artifacts:
+    reports:
+      junit:
+        - target/failsafe-reports/TEST-*.xml
+
+test_backend:
+  stage: test_backend
+  script:
+    - mvn clean install -B '-Dcucumber.options=--tags @backend'
+  artifacts:
+    reports:
+      junit:
+        - target/failsafe-reports/TEST-*.xml

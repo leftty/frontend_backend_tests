@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 @RunWith(CucumberWithSerenity.class)
 @CucumberOptions(
         plugin = {"pretty"},
-        features = "src/test/resources/features/frontendRegister.feature",
+        features = "src/test/resources/features/frontend/Register.feature",
         glue = {"stepDefinitions"},
         tags = {"not @skip"}
 )

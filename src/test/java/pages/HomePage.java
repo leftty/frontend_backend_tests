@@ -19,5 +19,6 @@ public class HomePage extends GenericPage {
         getDriver().findElement(By.cssSelector(SEARCH_INPUT_FIELD)).clear();
         getDriver().findElement(By.cssSelector(SEARCH_INPUT_FIELD)).sendKeys(product);
         getDriver().findElement(By.cssSelector(SEARCH_BUTTON)).click();
+        waitForPageToLoad();
     }
 }
