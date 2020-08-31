@@ -21,6 +21,11 @@ public class CartPageStepDefinition {
         cartPageSteps.checkTotalFee(totalFee);
     }
 
+    @Then("^I should see \"([^\"]*)\" as discount$")
+    public void iShouldSeeAsDiscount(String discount) throws Throwable {
+        cartPageSteps.checkDiscount(discount);
+    }
+
     @When("^I remove product \"([^\"]*)\" from shopping cart$")
     public void iRemoveProductFromCart(String productName) throws Throwable {
         cartPageSteps.removeProductFromCart(productName);

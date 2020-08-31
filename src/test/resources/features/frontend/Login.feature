@@ -37,7 +37,7 @@ Feature: Login to e-commerce website
     And I go to sign in form
     Then sign in form should be cleared
 
-  @bug
+  @bug @frontend
   Scenario: User tries to log in with only email address
     Given I go to website homepage
     When I go to sign in form

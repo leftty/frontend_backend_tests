@@ -71,4 +71,9 @@ public class GenericBackendRequestStepDefinition {
     public void iMakePostRequestOnTheCreateMapEndpointOverHttp() {
         genericBackendRequestSteps.addItemOverHttp();
     }
+
+    @When("^I make post request on the create map with invalid map type$")
+    public void iMakePostRequestOnTheCreateMapWithInvalidMapType() {
+        genericBackendRequestSteps.addItemInvalidMapType();
+    }
 }

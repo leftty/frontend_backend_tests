@@ -18,6 +18,11 @@ public class CartPageSteps {
     }
 
     @Step
+    public void checkDiscount(String discount) {
+        cartPage.checkDiscount(discount);
+    }
+
+    @Step
     public void removeProductFromCart(String productName) {
         cartPage.removeProductFromCart(productName);
     }

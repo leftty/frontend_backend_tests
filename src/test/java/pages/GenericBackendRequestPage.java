@@ -148,4 +148,20 @@ public class GenericBackendRequestPage extends PageObject {
                 .log().method().log().uri().log().body()
                 .post(TypeLoader.getBasePathUrl().substring(0,4) + TypeLoader.getBasePathUrl().substring(5) + "/users/leftty86/addItem");
     }
+
+    public void addItemInvalidMapType() {
+        // read post request body from file
+        String title = RandomStringUtils.randomAlphanumeric(10);
+        String postRequestBody = GenericData.readJsonValueFromFile("map.json","$");
+        RestAssured.registerParser("text/plain", Parser.JSON);
+
+        response = given().contentType(ContentType.JSON)
+                .queryParam("token", TypeLoader.getApiKey())
+                .queryParam("title", title)
+                .queryParam("type", "Online Map")
+                .queryParam("f", "json")
+                .body(postRequestBody)
+                .log().method().log().uri().log().body()
+                .post(TypeLoader.getBasePathUrl() + "/users/leftty86/addItem");
+    }
 }

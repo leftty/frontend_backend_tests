@@ -116,3 +116,31 @@ Feature: Checkout
       | phone ordering   | courier         | $66.53     |
       | credit card      | local shipping  | $67.59     |
       | cash on delivery | local pickup    | $59.98     |
+
+  @frontend @bug
+  Scenario: User gets 10% discount on orders over $100
+    Given I go to website homepage
+    When I go to sign in form
+    Then wait until I see "Create new account"
+    And I should see "Forgot password"
+    When I login with proper credentials
+    Then I should see "My account"
+    When I set location to "Romania"
+    And I set currency to "US Dollar"
+    And I empty shopping cart
+    When I search for product "tote"
+    Then I should see "Leather Mini Tote Bag"
+    When I go "Leather Mini Tote Bag" product page
+    Then I should see "Leather Mini Tote Bag"
+    And I should see "Add to cart"
+    When I add product to cart in quantity 4
+    Then I should see "You have just added"
+    And I should see "Leather Mini Tote Bag"
+    And I should see "4 x $29.99"
+    And I should see 4 products in the shopping minicart
+    When I go to view cart
+    Then I should see "Your shopping cart - 4 items"
+    And I should see "Leather Mini Tote Bag"
+    And I should see "Subtotal: $119.96"
+    And I should see "$12.00" as discount
+    And I should see "$107.96" as total fee

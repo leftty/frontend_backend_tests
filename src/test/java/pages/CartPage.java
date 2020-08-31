@@ -13,6 +13,7 @@ public class CartPage extends GenericPage {
     private static final String EMPTY_CART = "a.clear-bag";
     private static final String SHIPPING_FEE = "li.shipping-code-modifier";
     private static final String TOTAL_FEE = "li.total";
+    private static final String DISCOUNT = "li.discount-code-modifier";
     private static final String CHECKOUT = "button.checkout";
 
     public void emptyCart() {
@@ -23,12 +24,12 @@ public class CartPage extends GenericPage {
     }
 
     public void checkShippingFee(String shippingFee) {
-        Assert.assertTrue("Shipping fee is '" + findElementByCss(SHIPPING_FEE).getText() + "' and does not contain '" + shippingFee + "'",
+        Assert.assertTrue("Shipping fee is '" + findElementByCss(SHIPPING_FEE).getText() + "' instead of '" + shippingFee + "'",
                 findElementByCss(SHIPPING_FEE).getText().contains(shippingFee));
     }
 
     public void checkTotalFee(String totalFee) {
-        Assert.assertTrue("Header text is '" + findElementByCss(TOTAL_FEE).getText() + "' and does not contain '" + totalFee + "'",
+        Assert.assertTrue("Total fee is '" + findElementByCss(TOTAL_FEE).getText() + "' instead of '" + totalFee + "'",
                 findElementByCss(TOTAL_FEE).getText().contains(totalFee));
     }
 
@@ -48,5 +49,10 @@ public class CartPage extends GenericPage {
 
     public void goToCheckoutPage() {
         findElementByCss(CHECKOUT).click();
+    }
+
+    public void checkDiscount(String discount) {
+        Assert.assertTrue("Discount is '" + findElementByCss(DISCOUNT).getText() + "' instead of '" + discount + "'",
+                findElementByCss(DISCOUNT).getText().contains(discount));
     }
 }

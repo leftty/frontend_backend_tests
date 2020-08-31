@@ -64,4 +64,9 @@ public class GenericBackendRequestSteps {
     public void addItemOverHttp() {
         genericBackendRequestPage.addItemOverHttp();
     }
+
+    @Step
+    public void addItemInvalidMapType() {
+        genericBackendRequestPage.addItemInvalidMapType();
+    }
 }
