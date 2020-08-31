@@ -146,6 +146,6 @@ public class GenericBackendRequestPage extends PageObject {
                 .queryParam("f", "json")
                 .body(postRequestBody)
                 .log().method().log().uri().log().body()
-                .post(TypeLoader.getBasePathUrl().substring(0,5) + TypeLoader.getBasePathUrl().substring(5) + "/users/leftty86/addItem");
+                .post(TypeLoader.getBasePathUrl().substring(0,4) + TypeLoader.getBasePathUrl().substring(5) + "/users/leftty86/addItem");
     }
 }
