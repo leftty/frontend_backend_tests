@@ -2,7 +2,7 @@ Feature: Create map
   As an API user
   I should be able create maps
 
-  @backend @skip
+  @backend
   Scenario: User creates new map
     When I make proper post request on the create map endpoint
     Then response status code should be 200
@@ -20,7 +20,7 @@ Feature: Create map
       | Path  | Value    |
       | owner | leftty86 |
 
-  @backend @skip
+  @backend
   Scenario: User tries to create a new map using invalid api key
     When I make post request on the create map endpoint with invalid key
     Then response status code should be 200
@@ -40,7 +40,7 @@ Feature: Create map
       | error.message | Request not made over ssl |
 
 
-  @backend @skip
+  @backend
   Scenario: User deletes map
     When I make proper post request on the create map endpoint
     Then response status code should be 200
