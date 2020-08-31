@@ -158,7 +158,7 @@ public class CheckoutPage extends GenericPage {
     public void selectShipping(String shippingType) {
         String deliveryType = shippingType.toLowerCase();
         waitForPageToLoad();
-        FluentWait wait = globalFluentWait(10, 200);
+        FluentWait wait = globalFluentWait(20, 200);
         switch (deliveryType) {
             case "local pickup":
                 wait.until(not(ExpectedConditions.stalenessOf(findElementByCss(LOCAL_PICKUP))));
@@ -204,6 +204,14 @@ public class CheckoutPage extends GenericPage {
             case "paypal":
                 wait.until(not(ExpectedConditions.stalenessOf(getDriver().findElement(By.cssSelector(PAYPAL)))));
                 wait.until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(PAYPAL))));
+                try {
+                    getDriver().findElement(By.cssSelector(PAYPAL)).click();
+
+                } catch (Exception e) {
+                    getDriver().findElement(By.cssSelector(PAYPAL)).click();
+                }
+                wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.reloading-animated"), 0));
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.paypal-buttons")));
                 getDriver().switchTo().frame("braintree-hosted-field-number");
                 getDriver().findElement(By.cssSelector("#credit-card-number")).sendKeys("4263982640269299");
                 getDriver().switchTo().defaultContent();
@@ -213,13 +221,6 @@ public class CheckoutPage extends GenericPage {
                 getDriver().switchTo().frame("braintree-hosted-field-cvv");
                 getDriver().findElement(By.cssSelector("#cvv")).sendKeys("738");
                 getDriver().switchTo().defaultContent();
-                try {
-                    getDriver().findElement(By.cssSelector(PAYPAL)).click();
-
-                } catch (Exception e) {
-                    getDriver().findElement(By.cssSelector(PAYPAL)).click();
-                }
-                wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.reloading-animated"), 0));
                 break;
             case "credit card":
             case "debit card":

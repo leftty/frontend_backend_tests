@@ -40,7 +40,7 @@ public class GenericPageStepDefinition {
         genericPageSteps.elementWithIdShouldBePresent(id);
     }
 
-    @After
+
     @When("^I clear the browser session$")
     public void clearSession() {
         genericPageSteps.clearSession();

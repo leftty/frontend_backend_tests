@@ -53,28 +53,6 @@ public class GenericPage extends PageObject {
         ThucydidesWebDriverSupport.getDriver().manage().deleteAllCookies();
         JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
         jsExecutor.executeScript("window.sessionStorage.clear()");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.access.token.key54d151b6-2ca8-4018-8c70-f9ee600d91c7');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.expiration.key54d151b6-2ca8-4018-8c70-f9ee600d91c7');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.token.renew.status54d151b6-2ca8-4018-8c70-f9ee600d91c7');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.error');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.error.description');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.idtoken');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.login.error');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.login.request');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.nonce.idtoken');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.session.state');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.state.login');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.token.keys');");
-//        jsExecutor.executeScript("localStorage.removeItem('adal.token.renew.status');");
-//        getDriver().get("https://login.microsoftonline.com/dvsagov.onmicrosoft.com/oauth2/logout");
-//        try
-//        {
-//            getDriver().switchTo().alert().accept();
-//        }   // try
-//        catch (NoAlertPresentException Ex)
-//        {
-//            System.out.println("No alerts present");
-//        }
         ThucydidesWebDriverSupport.clearSession();
     }
 

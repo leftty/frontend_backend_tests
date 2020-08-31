@@ -1,0 +1,23 @@
+{
+  "operationalLayers": [],
+  "baseMap": {
+    "baseMapLayers": [
+      {
+        "id": "defaultBasemap",
+        "layerType": "ArcGISTiledMapServiceLayer",
+        "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer",
+        "visibility": true,
+        "opacity": 1,
+        "title": "Topographic"
+      }
+    ],
+    "title": "Topographic"
+  },
+  "spatialReference": {
+    "wkid": 102100,
+    "latestWkid": 3857
+  },
+  "authoringApp": "WebMapViewer",
+  "authoringAppVersion": "5.4",
+  "version": "2.11"
+}
