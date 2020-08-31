@@ -73,7 +73,7 @@ Feature: Checkout
     Then I should see "Delivery Method"
 
   @frontend
-  Scenario: User adds product to cart from search page
+  Scenario Outline: User place order on the website
     Given I go to website homepage
     When I go to sign in form
     Then wait until I see "Create new account"
@@ -101,23 +101,18 @@ Feature: Checkout
     Then I should see "Secure Checkout"
     And I fill in shipping info if no previous addresses exist and go to shipping step
     And I should see "Proceed to payment"
-    When I select courier delivery
-    Then I should see "$66.53" as total cost
-    When I select free shipping delivery
-    Then I should see "$59.98" as total cost
-    When I select local shipping delivery
-    Then I should see "$67.59" as total cost
-    When I select local pickup delivery
-    Then I should see "$59.98" as total cost
-    And I go to payment step
+    When I select <delivery_method> delivery
+    Then wait until I see "<total_cost>" as total cost
+    When I go to payment step
     Then I should see "Payment method"
-    Then I should see "Place order"
-    When I select phone ordering payment method
-    And I select paypal payment method
-    When I select credit card payment method
-    Then I should see "CARD NUMBER"
-    And I should see "CARDHOLDER NAME"
-    When I select cash on delivery payment method
-    When I place order
+    And I should see "Place order"
+    When I select <payment_method> payment method
+    And I place order
     Then I should see "Thank you for your order"
-    Then I should see "Grand total: $29.99"
+    And I should see "Grand total: <total_cost>"
+    Examples:
+      | payment_method   | delivery_method | total_cost |
+      | paypal           | free shipping   | $59.98     |
+      | phone ordering   | courier         | $66.53     |
+      | credit card      | local shipping  | $67.59     |
+      | cash on delivery | local pickup    | $59.98     |

@@ -3,10 +3,14 @@ package pages;
 import exceptions.AutomationException;
 import org.junit.Assert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementClickInterceptedException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
+
+import static org.openqa.selenium.support.ui.ExpectedConditions.not;
 
 public class CheckoutPage extends GenericPage {
 
@@ -23,10 +27,11 @@ public class CheckoutPage extends GenericPage {
     private static final String SHIPPING = "button.checkout_fastlane_section-next";
     private static final String FREE_SHIPPING = "label[title='Free shipping on orders over $50']>input";
     private static final String LOCAL_PICKUP = "label[title='Local pickup']>input";
-    private static final String LOCAL_SHIPPING = "label[title='Local pickup']>input";
-    private static final String COURIER = "label[title='Local pickup']>input";
+    private static final String LOCAL_SHIPPING = "label[title='Local shipping']>input";
+    private static final String COURIER = "label[title='Courier']>input";
     private static final String PAYMENT = "button.checkout_fastlane_section-next";
     private static final String PLACE_ORDER = "button.place-order";
+    private static final String PLACE_ORDER_PAYPAL = "#pcp-hosted-fields-submit";
     private static final String TOTAL_COST = "div.order-total";
     private static final String PAYPAL = "#pmethod15";
     private static final String CREDIT_CARD = "#pmethod30";
@@ -99,6 +104,7 @@ public class CheckoutPage extends GenericPage {
         FluentWait wait = globalFluentWait(10, 200);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(PAYMENT)));
         findElementByCss(PAYMENT).click();
+        waitForPageToLoad();
     }
 
     public void fillInShippingInfoIfNoPreviousAddressesExistGoToShippingStep() {
@@ -119,7 +125,24 @@ public class CheckoutPage extends GenericPage {
     }
 
     public void placeOrder() {
-        findElementByCss(PLACE_ORDER).click();
+        FluentWait wait = globalFluentWait(10, 200);
+        waitForPageToLoad();
+        if (getDriver().findElements(By.cssSelector("div.pcp-hosted-fields-container[style='display: none;']")).size() > 0) {
+            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(PLACE_ORDER)));
+            try {
+                getDriver().findElement(By.cssSelector(PLACE_ORDER)).click();
+            } catch (ElementClickInterceptedException e) {
+                getDriver().findElement(By.cssSelector(PLACE_ORDER)).click();
+            }
+        }
+        else {
+            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(PLACE_ORDER_PAYPAL)));
+            try {
+                getDriver().findElement(By.cssSelector(PLACE_ORDER_PAYPAL)).click();
+            } catch (ElementClickInterceptedException e) {
+                getDriver().findElement(By.cssSelector(PLACE_ORDER_PAYPAL)).click();
+            }
+        }
     }
 
     public void fillInPhoneNo(String phoneNo) {
@@ -134,44 +157,100 @@ public class CheckoutPage extends GenericPage {
 
     public void selectShipping(String shippingType) {
         String deliveryType = shippingType.toLowerCase();
+        waitForPageToLoad();
+        FluentWait wait = globalFluentWait(10, 200);
         switch (deliveryType) {
             case "local pickup":
+                wait.until(not(ExpectedConditions.stalenessOf(findElementByCss(LOCAL_PICKUP))));
+                wait.until(ExpectedConditions.elementToBeClickable(findElementByCss(LOCAL_PICKUP)));
                 findElementByCss(LOCAL_PICKUP).click();
+                wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.reloading-animated"), 0));
                 break;
             case "free shipping":
+                wait.until(not(ExpectedConditions.stalenessOf(findElementByCss(FREE_SHIPPING))));
+                wait.until(ExpectedConditions.elementToBeClickable(findElementByCss(FREE_SHIPPING)));
                 findElementByCss(FREE_SHIPPING).click();
+                wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.reloading-animated"), 0));
                 break;
             case "local shipping":
+                wait.until(not(ExpectedConditions.stalenessOf(findElementByCss(LOCAL_SHIPPING))));
+                wait.until(ExpectedConditions.elementToBeClickable(findElementByCss(LOCAL_SHIPPING)));
                 findElementByCss(LOCAL_SHIPPING).click();
+                wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.reloading-animated"), 0));
                 break;
             case "courier":
+                wait.until(not(ExpectedConditions.stalenessOf(findElementByCss(COURIER))));
+                wait.until(ExpectedConditions.elementToBeClickable(findElementByCss(COURIER)));
                 findElementByCss(COURIER).click();
+                wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.reloading-animated"), 0));
                 break;
             default:  // should be unreachable!
                 throw new AutomationException("Invalid delivery type " + deliveryType);
         }
+        waitForPageToLoad();
     }
 
     public void checkTotalCost(String totalCost) {
-        Assert.assertTrue("Total cost '" + findElementByCss(TOTAL_COST).getText().trim() +
-                "' is different than expected one '" + totalCost + "'", findElementByCss(TOTAL_COST).getText().trim().contentEquals(totalCost));
+        FluentWait wait = globalFluentWait(10, 200);
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector(TOTAL_COST), totalCost));
     }
 
     public void selectPaymentMethod(String paymentMethod) {
         String deliveryType = paymentMethod.toLowerCase();
+        waitForPageToLoad();
+        FluentWait wait = globalFluentWait(10, 200);
+        wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.reloading-animated"), 0));
         switch (deliveryType) {
             case "paypal":
-                findElementByCss(PAYPAL).click();
+                wait.until(not(ExpectedConditions.stalenessOf(getDriver().findElement(By.cssSelector(PAYPAL)))));
+                wait.until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(PAYPAL))));
+                getDriver().switchTo().frame("braintree-hosted-field-number");
+                getDriver().findElement(By.cssSelector("#credit-card-number")).sendKeys("4263982640269299");
+                getDriver().switchTo().defaultContent();
+                getDriver().switchTo().frame("braintree-hosted-field-expirationDate");
+                getDriver().findElement(By.cssSelector("#expiration")).sendKeys("04/2023");
+                getDriver().switchTo().defaultContent();
+                getDriver().switchTo().frame("braintree-hosted-field-cvv");
+                getDriver().findElement(By.cssSelector("#cvv")).sendKeys("738");
+                getDriver().switchTo().defaultContent();
+                try {
+                    getDriver().findElement(By.cssSelector(PAYPAL)).click();
+
+                } catch (Exception e) {
+                    getDriver().findElement(By.cssSelector(PAYPAL)).click();
+                }
+                wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.reloading-animated"), 0));
                 break;
             case "credit card":
             case "debit card":
-                findElementByCss(CREDIT_CARD).click();
+                wait.until(not(ExpectedConditions.stalenessOf(getDriver().findElement(By.cssSelector(CREDIT_CARD)))));
+                wait.until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(CREDIT_CARD))));
+                try {
+                    getDriver().findElement(By.cssSelector(CREDIT_CARD)).click();
+                } catch (Exception e) {
+                    getDriver().findElement(By.cssSelector(CREDIT_CARD)).click();
+                }
+                wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.reloading-animated"), 0));
                 break;
             case "phone ordering":
-                findElementByCss(PHONE_ORDERING).click();
+                wait.until(not(ExpectedConditions.stalenessOf(getDriver().findElement(By.cssSelector(PHONE_ORDERING)))));
+                wait.until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(PHONE_ORDERING))));
+                try {
+                    getDriver().findElement(By.cssSelector(PHONE_ORDERING)).click();
+                } catch (Exception e) {
+                    getDriver().findElement(By.cssSelector(PHONE_ORDERING)).click();
+                }
+                wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.reloading-animated"), 0));
                 break;
             case "cash on delivery":
-                findElementByCss(CASH_ON_DELIVERY).click();
+                wait.until(not(ExpectedConditions.stalenessOf(getDriver().findElement(By.cssSelector(CASH_ON_DELIVERY)))));
+                wait.until(ExpectedConditions.elementToBeClickable(getDriver().findElement(By.cssSelector(CASH_ON_DELIVERY))));
+                try {
+                    getDriver().findElement(By.cssSelector(CASH_ON_DELIVERY)).click();
+                }  catch (Exception e) {
+                    getDriver().findElement(By.cssSelector(CASH_ON_DELIVERY)).click();
+                }
+                wait.until(ExpectedConditions.numberOfElementsToBe(By.cssSelector("div.reloading-animated"), 0));
                 break;
             default:  // should be unreachable!
                 throw new AutomationException("Invalid payment method " + deliveryType);

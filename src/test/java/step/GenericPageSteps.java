@@ -42,11 +42,6 @@ public class GenericPageSteps {
     }
 
     @Step
-    public void clearSessionStorage() {
-        genericPage.clearSessionStorage();
-    }
-
-    @Step
     public void checkTextIsPresentInHyperlink(String text) {
         genericPage.checkTextIsPresentInHyperlink(text);
     }

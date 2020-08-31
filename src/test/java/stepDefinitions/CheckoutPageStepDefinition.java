@@ -87,8 +87,8 @@ public class CheckoutPageStepDefinition {
         checkoutPageSteps.fillInVatNo(vatNo);
     }
 
-    @Then("^I should see \"([^\"]*)\" as total cost$")
-    public void iShouldSeeAsTotalCost(String totalCost) throws Throwable {
+    @Then("^wait until I see \"([^\"]*)\" as total cost$")
+    public void waitUntilISeeAsTotalCost(String totalCost) throws Throwable {
         checkoutPageSteps.checkTotalCost(totalCost);
     }
 

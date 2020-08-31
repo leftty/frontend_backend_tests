@@ -21,4 +21,8 @@ public class HomePage extends GenericPage {
         getDriver().findElement(By.cssSelector(SEARCH_BUTTON)).click();
         waitForPageToLoad();
     }
+
+    public boolean isUserSignedIn() {
+        return getDriver().findElements(By.cssSelector(SIGN_IN_SIGN_UP_BUTTON)).size() == 0;
+    }
 }

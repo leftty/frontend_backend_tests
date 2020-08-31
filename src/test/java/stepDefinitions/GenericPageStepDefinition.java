@@ -40,9 +40,10 @@ public class GenericPageStepDefinition {
         genericPageSteps.elementWithIdShouldBePresent(id);
     }
 
-    @When("^I clear session storage$")
-    public void iClearSessionStorage() throws Throwable {
-        genericPageSteps.clearSessionStorage();
+    @After
+    @When("^I clear the browser session$")
+    public void clearSession() {
+        genericPageSteps.clearSession();
     }
 
     @When("^refresh the page$")

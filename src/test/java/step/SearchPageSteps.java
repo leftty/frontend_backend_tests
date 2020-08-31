@@ -35,11 +35,6 @@ public class SearchPageSteps extends GenericPageSteps {
     }
 
     @Step
-    public void clearSessionStorage() {
-        searchPage.clearSessionStorage();
-    }
-
-    @Step
     public void shouldSeeResults(int noOfResults) {
         searchPage.shouldSeeResults(noOfResults);
     }

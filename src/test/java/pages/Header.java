@@ -28,10 +28,13 @@ public class Header extends GenericPage {
     }
 
     public void goToCartPage() {
-        findElementByCss(MINICART).click();
         FluentWait wait = globalFluentWait(10, 200);
-        wait.until(ExpectedConditions.textToBePresentInElementLocated(By.cssSelector(FULL_CART), "View cart"));
-        findElementByCss(VIEW_CART).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(MINICART)));
+        getDriver().findElement(By.cssSelector(MINICART)).click();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(FULL_CART)));
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(VIEW_CART)));
+        getDriver().findElement(By.cssSelector(VIEW_CART)).click();
     }
 
     public boolean isCartEmpty() {

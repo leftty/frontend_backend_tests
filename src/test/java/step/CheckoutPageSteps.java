@@ -78,8 +78,8 @@ public class CheckoutPageSteps {
     }
 
     @Step
-    public void checkTotalCost(String totalCost) {
-        checkoutPage.checkTotalCost(totalCost);
+    public void checkTotalCost(String text) {
+        checkoutPage.checkTotalCost(text);
     }
 
     @Step
